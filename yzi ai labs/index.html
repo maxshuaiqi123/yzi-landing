@@ -132,7 +132,7 @@ color: transparent;
   letter-spacing: 0.4px;
 }
 /* 导航菜单 */
-.primary ul {
+.primary > ul {
   list-style: none;
   display: flex;
   gap: 36px;
@@ -178,6 +178,134 @@ color: transparent;
   position: relative;
 }
 
+/* ============= MEGA MENU STYLES (SEO Optimized) ============= */
+
+/* 1. 设置父级定位上下文 */
+.nav-row {
+  position: relative; /* 让 mega menu 相对于整个导航条居中 */
+}
+
+.dropdown--mega {
+  position: static; /* 关键：允许子面板根据 .nav-row 定位，而不是受限于按钮宽度 */
+}
+
+/* 2. Mega Menu 面板主体 */
+.mega-menu {
+  position: absolute;
+  top: 100%; /* 紧贴导航栏下方 */
+  left: 0;
+  right: 0; /* 左右拉满，与 wrap 对齐 */
+  
+  width: 100%; /* 占满容器宽度 */
+  margin-top: 0; /* 紧贴 */
+  
+  background: #050608; /* 深色背景，比纯黑稍浅一点点 */
+  border: 1px solid #1f2933; /* 细微边框 */
+  border-top: 2px solid #2388e2; /* 顶部蓝色高亮条 */
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9); /* 强烈的阴影 */
+  
+  padding: 32px 0; /* 上下内边距 */
+  
+  /* 布局：4列 */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4等分 */
+  gap: 30px;
+  
+  /* 动画效果：默认隐藏 */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.2s ease-in-out;
+  z-index: 2000;
+}
+
+/* 3. 显示逻辑：鼠标滑过 或 键盘聚焦内部时显示 */
+.dropdown--mega:hover .mega-menu,
+.dropdown--mega:focus-within .mega-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* 4. 列样式 */
+.mega-col {
+  padding: 0 20px; /* 列内部留白 */
+  border-left: 1px solid rgba(255, 255, 255, 0.05); /* 列分割线 */
+}
+
+.mega-col:first-child {
+  border-left: none; /* 第一列去掉左边框 */
+}
+
+/* 5. 分类标题 (Eyebrow) */
+.mega-eyebrow {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #60a5fa; /* 亮蓝色高亮 */
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(96, 165, 250, 0.2); /* 标题下方的装饰线 */
+}
+
+/* 6. 链接列表 */
+.mega-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* 链接间距 */
+}
+
+.mega-list li {
+  margin: 0;
+}
+
+.mega-list a {
+  display: block;
+  font-size: 0.9rem;
+  color: #d1d5db; /* 灰白色文字 */
+  text-decoration: none;
+  line-height: 1.4;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+/* 链接悬停效果 */
+.mega-list a:hover {
+  color: #fff;
+  transform: translateX(4px); /* 悬停时轻微右移 */
+  text-shadow: 0 0 10px rgba(35, 136, 226, 0.6); /* 发光效果 */
+}
+
+/* ============= 响应式处理 ============= */
+@media (max-width: 1024px) {
+  .mega-menu {
+    grid-template-columns: repeat(2, 1fr); /* 平板改为2列 */
+    gap: 20px;
+    padding: 20px;
+  }
+  .mega-col {
+    border-left: none;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* 移动端简单处理：隐藏 Mega 菜单，或者改为垂直堆叠（需配合 JS，此处做基础堆叠） */
+  .dropdown--mega:hover .mega-menu {
+    position: static;
+    grid-template-columns: 1fr;
+    box-shadow: none;
+    border-top: none;
+    padding-left: 15px;
+    background: #000;
+  }
+  .mega-eyebrow { color: #93c5fd; border-bottom: none; margin-bottom: 8px; margin-top: 12px;}
+}
 
 /* 每项 */
 .dropdown-menu a {
@@ -203,6 +331,265 @@ color: transparent;
 /* 展开时显示 */
 .dropdown:focus-within .dropdown-menu { display: flex; }
 .dropdown:not(:focus-within) .dropdown-menu { display: none; }
+
+/* ============= MEGA MENU STYLES ============= */
+
+/* 1. 设置父级定位上下文 */
+.nav-row {
+  position: relative; /* 让 mega menu 相对于整个导航条居中，而不是相对于 Services 按钮 */
+}
+
+.dropdown--mega {
+  position: static; /* 关键：允许子元素根据 .nav-row 定位 */
+}
+
+/* 2. Mega Menu 面板主体 */
+.mega-menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%; /* 紧贴导航栏下方 */
+  margin-top: 12px; /* 稍微留一点空隙 */
+  
+  width: 100%;
+  max-width: 1200px; /* 限制最大宽度，与网页内容对齐 */
+  margin-left: auto;
+  margin-right: auto;
+  
+  background: #0b0c10; /* 深色背景 */
+  border: 1px solid #1f2933; /* 细微边框 */
+  border-top: 2px solid #2388e2; /* 顶部蓝色高亮条，增加视觉层次 */
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7); /* 强烈的阴影提升悬浮感 */
+  
+  padding: 32px 40px;
+  
+  /* 布局：4列 */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  
+  /* 动画效果：默认隐藏 */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.25s ease-in-out;
+  z-index: 2000;
+}
+
+/* 3. 显示逻辑：鼠标滑过 或 键盘聚焦内部时显示 */
+.dropdown--mega:hover .mega-menu,
+.dropdown--mega:focus-within .mega-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* 4. 列标题样式 (Eyebrow) */
+.mega-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #60a5fa; /* 浅蓝色，高亮分类 */
+  margin: 0 0 16px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 5. 链接列表样式 */
+.mega-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mega-list li {
+  margin: 0;
+}
+
+.mega-list a {
+  display: block;
+  font-size: 0.9rem;
+  color: #cbd5e1; /* 灰白色文字 */
+  text-decoration: none;
+  line-height: 1.4;
+  padding: 4px 0;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+/* 链接悬停效果 */
+.mega-list a:hover {
+  color: #fff;
+  transform: translateX(4px); /* 悬停时轻微右移 */
+  text-shadow: 0 0 10px rgba(35, 136, 226, 0.4);
+}
+
+/* ============= 响应式处理 (平板/手机) ============= */
+@media (max-width: 1024px) {
+  .mega-menu {
+    grid-template-columns: repeat(2, 1fr); /* 平板改为2列 */
+    padding: 24px;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* 移动端处理：通常移动端会完全改变菜单结构 */
+  /* 这里做一个简单的堆叠处理，防止布局崩坏 */
+  .dropdown--mega { position: relative; }
+  .mega-menu {
+    position: static; /* 移动端不再绝对定位 */
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    padding: 10px 0 0 20px;
+    grid-template-columns: 1fr; /* 单列 */
+    display: none; /* 默认折叠，需配合 JS 点击展开 */
+  }
+  
+  /* 这是一个简单的纯 CSS Hack，让 hover 在手机上也能展开（体验不如 JS 点击好） */
+  .dropdown--mega:hover .mega-menu {
+    display: grid;
+  }
+  
+  .mega-eyebrow {
+    margin-top: 16px;
+    color: #93c5fd;
+  }
+}
+
+/* Services 按钮的焦点样式 */
+.primary .dropdown--mega > a {
+  outline: none;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+.primary .dropdown--mega > a:focus {
+  border-color: #2388e2;
+  box-shadow: 0 0 0 3px rgba(35, 136, 226, 0.25);
+}
+
+/* 响应式：窄屏时缩成 2 列 / 1 列 */
+@media (max-width: 1024px) {
+  .mega-menu {
+    width: min(880px, calc(100vw - 24px));
+    gap: 24px;
+  }
+}
+
+@media (max-width: 880px) {
+  .mega-menu {
+    flex-wrap: wrap;
+    width: min(720px, calc(100vw - 24px));
+  }
+  .mega-col {
+    flex: 1 1 45%;
+  }
+}
+
+@media (max-width: 720px) {
+  .mega-menu {
+    position: static;
+    transform: none;
+    width: 100%;
+    margin-top: 10px;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.6);
+    flex-direction: column;
+    gap: 16px;
+  }
+  .mega-col {
+    flex: 1 1 100%;
+  }
+}
+
+
+/* 鼠标滑过或键盘聚焦时显示 */
+.dropdown--mega:hover .mega-menu,
+.dropdown--mega:focus-within .mega-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+/* 板块标题 */
+.mega-eyebrow {
+  margin: 0 0 10px;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #93c5fd;
+}
+
+/* 项目列表 */
+.mega-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.mega-list a {
+  display: inline-block;
+  font-size: 0.9rem;
+  color: #e5e7eb;
+  text-decoration: none;
+  line-height: 1.5;
+  padding: 3px 0;
+  border-radius: 6px;
+  transition: color 0.18s ease, background 0.18s ease, transform 0.16s ease;
+}
+
+.mega-list a:hover {
+  color: #bfdbfe;
+  background: rgba(37,99,235,0.08);
+  transform: translateX(1px);
+}
+
+/* 和导航按钮焦点样式配合 */
+.primary .dropdown--mega > a {
+  outline: none;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+.primary .dropdown--mega > a:focus {
+  border-color: #2388e2;
+  box-shadow: 0 0 0 3px rgba(35,136,226,.25);
+}
+
+/* 响应式：平板 / 手机时改为 2 列 / 堆叠 */
+@media (max-width: 1024px) {
+  .mega-menu {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(760px, calc(100vw - 24px));
+  }
+}
+
+@media (max-width: 720px) {
+  .mega-menu {
+    position: static;
+    transform: none;
+    width: 100%;
+    margin-top: 12px;
+    box-shadow: 0 10px 26px rgba(0,0,0,0.6);
+    grid-template-columns: 1fr;
+  }
+
+  /* 移动端让整个 li 看起来像普通展开块 */
+  .dropdown--mega {
+    position: relative;
+  }
+}
 
 
 /* 语言切换 */
@@ -314,7 +701,7 @@ color: transparent;
 /* =========================
    ABOUT SECTION
 ========================= */
-
+bout
 .about {
   background: #0a0a0a;
   padding: clamp(60px, 8vw, 100px) 0;
@@ -774,6 +1161,798 @@ color: transparent;
 .sr-only:focus{left:12px;top:12px;width:auto;height:auto;background:#000;color:#fff;padding:8px 10px;border-radius:6px;z-index:99999}
 
 
+/* =============================
+   NEWSLETTER
+============================= */
+.newsletter {
+  background: #0a0a0a;
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #111;
+  padding: clamp(56px, 8vw, 96px) 0;
+}
+
+.newsletter__title {
+  text-align: center;
+  font-size: clamp(24px, 3vw, 32px);
+  margin: 0 0 10px;
+}
+
+.newsletter__subtitle {
+  text-align: center;
+  color: var(--muted);
+  max-width: 640px;
+  margin: 0 auto 26px;
+  line-height: 1.7;
+}
+
+.newsletter__form {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.newsletter__fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.newsletter__field {
+  flex: 1 1 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.newsletter__field label {
+  font-size: 0.85rem;
+  color: #e5e7eb;
+}
+
+.newsletter__field input {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #222;
+  background: #0f0f0f;
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.newsletter__field input::placeholder {
+  color: #6b7280;
+}
+
+.newsletter__submit {
+  flex: 0 0 auto;
+}
+
+.newsletter__submit .pill {
+  white-space: nowrap;
+}
+
+.newsletter__note {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+@media (max-width: 640px) {
+  .newsletter__fields {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .newsletter__submit .pill {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* =============================
+   FAQ
+============================= */
+.faq-section {
+  background: #0a0a0a;
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #111;
+  padding: clamp(56px, 8vw, 96px) 0;
+}
+
+.faq__title {
+  text-align: center;
+  font-size: clamp(24px, 3vw, 32px);
+  margin: 0 0 28px;
+}
+
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+  display: grid;
+  gap: 12px;
+}
+
+.faq-item {
+  background: #0f0f0f;
+  border-radius: 12px;
+  border: 1px solid #1f2933;
+  overflow: hidden;
+}
+
+.faq-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 16px 18px;
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* 去掉默认三角图标，自己画一个 */
+.faq-summary::-webkit-details-marker {
+  display: none;
+}
+.faq-summary::after {
+  content: "+";
+  position: absolute;
+  right: 18px;
+  font-size: 18px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+/* 展开状态图标旋转 */
+.faq-item[open] .faq-summary::after {
+  transform: rotate(45deg);
+}
+
+.faq-summary:hover {
+  background: #111827;
+}
+
+.faq-answer {
+  padding: 0 18px 16px;
+}
+
+.faq-answer p {
+  margin: 8px 0 0;
+  color: #e5e7eb;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+/* ===== Featured blog card (GCC Trends, no label) ===== */
+.post-card--featured {
+  position: relative;
+  border-color: var(--blue);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(35,136,226,0.18), transparent 55%),
+    #0f0f0f;
+}
+
+.post-card--featured::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  pointer-events: none;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  mix-blend-mode: screen;
+  opacity: 0.7;
+}
+/* =============================
+   CLIENTS / SOCIAL PROOF
+============================= */
+.clients {
+  background: #050608;
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #111;
+  padding: clamp(48px, 7vw, 80px) 0;
+}
+
+.clients__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  font-size: 11px;
+  color: #9ca3af;
+  margin: 0 0 8px;
+}
+
+.clients__title {
+  margin: 0 0 24px;
+  font-size: clamp(22px, 3vw, 30px);
+}
+
+.clients__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px 24px;
+}
+
+.clients__item {
+  font-size: 0.9rem;
+  color: #e5e7eb;
+  opacity: 0.9;
+}
+
+/* 可选：给未来 logo 预留样式 */
+/*
+.clients__item img {
+  max-height: 26px;
+  width: auto;
+  filter: grayscale(1) brightness(1.1);
+  opacity: 0.9;
+}
+*/
+
+/* =============================
+   WHY YZI AI LABS
+============================= */
+.why {
+  background: #0a0a0a;
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #111;
+  padding: clamp(56px, 8vw, 96px) 0;
+}
+
+.why__title {
+  margin: 0 0 10px;
+  font-size: clamp(22px, 3vw, 32px);
+}
+
+.why__subtitle {
+  margin: 0 0 30px;
+  max-width: 620px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.why__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.why__card {
+  background: #0f0f0f;
+  border-radius: 12px;
+  border: 1px solid #1f2933;
+  padding: 16px 16px 18px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+}
+
+.why__card h3 {
+  margin: 0 0 8px;
+  font-size: 0.98rem;
+}
+
+.why__card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #d1d5db;
+  line-height: 1.7;
+}
+
+/* =============================
+   PROCESS
+============================= */
+.process {
+  background: #050608;
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #111;
+  padding: clamp(56px, 8vw, 96px) 0;
+}
+
+.process__title {
+  margin: 0 0 26px;
+  font-size: clamp(22px, 3vw, 32px);
+}
+
+.process__list {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+  counter-reset: step;
+}
+
+.process__list li {
+  background: #0b0c10;
+  border-radius: 12px;
+  border: 1px solid #1f2933;
+  padding: 16px 16px 18px;
+}
+
+.process__list h3 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+
+.process__list p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #d1d5db;
+  line-height: 1.7;
+}
+
+@media (max-width: 720px) {
+  .clients__grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
+/* =============================
+   INDUSTRIES WE SERVE
+============================= */
+.industries {
+  background: #050608;
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #111;
+  padding: clamp(56px, 8vw, 96px) 0;
+}
+
+.industries__title {
+  margin: 0 0 10px;
+  font-size: clamp(22px, 3vw, 32px);
+}
+
+.industries__subtitle {
+  margin: 0 0 28px;
+  max-width: 640px;
+  color: #9ca3af;
+  line-height: 1.7;
+}
+
+.industries__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 18px;
+}
+
+.industry {
+  background: #0b0c10;
+  border-radius: 14px;
+  border: 1px solid #1f2933;
+  padding: 16px 16px 18px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+}
+
+.industry h3 {
+  margin: 0 0 8px;
+  font-size: 0.98rem;
+}
+
+.industry p {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+  color: #e5e7eb;
+  line-height: 1.7;
+}
+
+/* 小列表，用细蓝点，和 CTA 区块统一风格 */
+.industry__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.industry__list li {
+  position: relative;
+  margin: 6px 0;
+  padding-left: 16px;
+  font-size: 0.86rem;
+  color: #cbd5e1;
+}
+
+.industry__list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.75em;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--blue);
+  transform: translateY(-50%);
+}
+
+@media (max-width: 720px) {
+  .industries__grid {
+    gap: 14px;
+  }
+}
+
+/* =============================
+   PARTNERS LOGO WALL
+============================= */
+.partners {
+  background: #050608;
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #111;
+  padding: clamp(56px, 8vw, 96px) 0;
+}
+
+.partners__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  font-size: 11px;
+  color: #9ca3af;
+  margin: 0 0 6px;
+}
+
+.partners__title {
+  margin: 0 0 10px;
+  font-size: clamp(22px, 3vw, 32px);
+}
+
+.partners__subtitle {
+  margin: 0 0 26px;
+  max-width: 640px;
+  color: #9ca3af;
+  line-height: 1.7;
+}
+
+/* Logo grid */
+.partners__logos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 18px 24px;
+  align-items: center;
+}
+
+.partner {
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid #1f2933;
+  background: radial-gradient(circle at 0 0, rgba(148,163,184,0.18), transparent 60%) #020617;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 72px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.55);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+}
+
+.partner img {
+  max-width: 140px;
+  max-height: 40px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(1) brightness(1.2);
+  opacity: 0.88;
+  transition: filter .18s ease, opacity .18s ease;
+}
+
+.partner:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.7);
+  border-color: #3b82f6;
+  background: radial-gradient(circle at 0 0, rgba(59,130,246,0.28), transparent 70%) #020617;
+}
+
+.partner:hover img {
+  filter: grayscale(0) brightness(1);
+  opacity: 1;
+}
+
+@media (max-width: 720px) {
+  .partners__logos {
+    gap: 14px 16px;
+  }
+  .partner {
+    padding: 10px 12px;
+  }
+}
+
+
+/* =============================
+   NEW FOOTER (Modern Dark Style)
+============================= */
+
+.footer {
+  background: #0b0c10;
+  border-top: 1px solid #1b1c20;
+  padding: 60px 0 40px;
+  color: #d1d5db;
+  font-size: 0.92rem;
+}
+
+.footer__container {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 40px 60px;
+}
+
+.footer__about {
+  max-width: 520px;
+}
+
+.footer__logo {
+  margin: 0 0 10px;
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #60a5fa, #a78bfa);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.footer__text {
+  margin: 0 0 14px;
+  line-height: 1.7;
+  color: #9ca3af;
+}
+
+.footer__copy {
+  font-size: 0.82rem;
+  color: #6b7280;
+  margin-top: 10px;
+}
+
+/* 右侧链接区域 */
+.footer__links {
+  display: flex;
+  gap: 50px;
+  justify-content: flex-end;
+}
+
+.footer__col h4 {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #93c5fd;
+}
+
+.footer__col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.footer__col a {
+  color: #e5e7eb;
+  text-decoration: none;
+  opacity: 0.85;
+  transition: opacity .2s ease, color .2s ease;
+}
+
+.footer__col a:hover {
+  opacity: 1;
+  color: #3b82f6;
+}
+
+/* 响应式 */
+@media (max-width: 840px) {
+  .footer__container {
+    grid-template-columns: 1fr;
+  }
+  .footer__links {
+    justify-content: flex-start;
+    gap: 40px;
+  }
+}
+
+/* =============================
+   PARTNERS LOGO MARQUEE
+============================= */
+
+.partners-marquee {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding: 18px 0;
+}
+
+.partners-marquee__track {
+  display: flex;
+  gap: 36px;
+  animation: scroll-left 26s linear infinite;
+}
+
+.partners-marquee:hover .partners-marquee__track {
+  animation-play-state: paused;
+}
+
+.partner {
+  flex: 0 0 auto;
+  padding: 12px 20px;
+  border-radius: 14px;
+  border: 1px solid #1f2933;
+  background: #0c0f12;
+  box-shadow: 0 14px 25px rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 150px;
+  min-height: 70px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.partner img {
+  max-height: 38px;
+  width: auto;
+  opacity: 0.9;
+  filter: grayscale(1) brightness(1.2);
+  transition: opacity .2s ease, filter .2s ease;
+}
+
+.partner:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+.partner:hover img {
+  opacity: 1;
+  filter: grayscale(0) brightness(1);
+}
+
+@keyframes scroll-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ===== FINAL MEGA MENU LAYOUT (override) ===== */
+
+/* 让整个导航作为定位参照 */
+.nav-row {
+  position: relative;
+}
+
+/* Services 这个 li 本身不做定位，方便面板居中 */
+.dropdown--mega {
+  position: static;
+}
+
+/* 面板主体 */
+.mega-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+
+  width: min(1100px, calc(100vw - 32px)); /* 永远不会超出屏幕 */
+  padding: 24px 32px 28px;
+
+  background: #050608;
+  border-radius: 0 0 16px 16px;
+  border: 1px solid #1f2933;
+  border-top: 2px solid #2388e2;
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.85);
+
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: 32px;
+  row-gap: 16px;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 2000;
+}
+
+/* 悬停 / 键盘聚焦时展开 */
+.dropdown--mega:hover .mega-menu,
+.dropdown--mega:focus-within .mega-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* 每一列 */
+.mega-col {
+  min-width: 0;
+}
+
+/* 标题（GROWTH ACQUISITION 等） */
+.mega-eyebrow {
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #93c5fd;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* 列表 */
+.mega-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mega-list li {
+  margin: 0;
+}
+
+/* 链接样式 */
+.mega-list a {
+  display: inline-block;
+  font-size: 0.9rem;
+  color: #e5e7eb;
+  text-decoration: none;
+  line-height: 1.45;
+  padding: 3px 0;
+  border-radius: 6px;
+  white-space: normal;
+  word-break: break-word;
+  transition:
+    color 0.18s ease,
+    background 0.18s ease,
+    transform 0.16s ease;
+}
+
+.mega-list a:hover {
+  color: #bfdbfe;
+  background: rgba(37, 99, 235, 0.12);
+  transform: translateX(2px);
+  text-shadow: 0 0 8px rgba(37, 99, 235, 0.5);
+}
+
+/* Services 按钮本身的焦点/hover 保持简洁 */
+.primary .dropdown--mega > a {
+  outline: none;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+.primary .dropdown--mega > a:focus {
+  border-color: #2388e2;
+  box-shadow: 0 0 0 3px rgba(35, 136, 226, 0.25);
+}
+
+/* —— 响应式：4 → 3 → 2 → 1 列 —— */
+
+/* 宽度稍微窄一点时：3 列 */
+@media (max-width: 1150px) {
+  .mega-menu {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: min(900px, calc(100vw - 24px));
+    padding: 22px 26px 24px;
+  }
+}
+
+/* 平板：2 列 */
+@media (max-width: 900px) {
+  .mega-menu {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(720px, calc(100vw - 24px));
+    column-gap: 24px;
+  }
+}
+
+/* 手机：1 列、改成「下面大面板」形式 */
+@media (max-width: 720px) {
+  .mega-menu {
+    position: static;
+    transform: none;
+    width: 100%;
+    margin-top: 10px;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.6);
+    grid-template-columns: 1fr;
+    border-radius: 0 0 14px 14px;
+  }
+
+  .dropdown--mega:hover .mega-menu,
+  .dropdown--mega:focus-within .mega-menu {
+    transform: none;
+  }
+}
+
+
 
   </style>
 </head>
@@ -803,19 +1982,62 @@ color: transparent;
       <!-- 主导航 -->
       <nav class="primary" aria-label="Main Navigation">
         <ul>
-          <li class="dropdown">
-           <a href="#" tabindex="0" onclick="return false;">Services ▾</a>
-            <ul class="dropdown-menu">
-               <li><a href="/en/services/paid-advertising/">Paid Advertising</a></li>
-              <li><a href="/en/services/social-ads/">Social & Video Ads</a></li>
-              <li><a href="/en/services/crypto-marketing/">Crypto & Web3 Marketing</a></li>
-              <li><a href="/en/services/content-creative/">Content & Creative</a></li>
-              <li><a href="/en/services/web-tech/">Web & App Development</a></li>
-              <li><a href="/en/services/seo-growth/">Search Engine Optimization</a></li>
-              <li><a href="/en/services/brand-growth/">Brand & Growth Strategy</a></li>
-        </ul>
-          </li>
+          <!-- Services Mega Menu Item -->
+<li class="dropdown dropdown--mega">
+  <a href="/en/services/" aria-haspopup="true" aria-expanded="false">Services ▾</a>
+
+  <!-- Mega Menu 面板 -->
+  <div class="mega-menu" role="region" aria-label="Services Navigation">
+    
+    <!-- ⭐ 板块一：Growth Acquisition -->
+    <div class="mega-col">
+      <span class="mega-eyebrow">Growth Acquisition</span>
+      <ul class="mega-list">
+        <li><a href="/en/services/growth/tiktok-ads-gcc/">TikTok Ads (Focus on GCC)</a></li>
+        <li><a href="/en/services/growth/meta-ads-facebook-instagram/">Meta Ads (FB/IG)</a></li>
+        <li><a href="/en/services/growth/google-youtube-ads/">Google & YouTube Ads</a></li>
+        <li><a href="/en/services/growth/crypto-user-acquisition/">Crypto User Acquisition</a></li>
+        <li><a href="/en/services/growth/mena-ecommerce-marketplace/">MENA E-commerce & Ops</a></li>
+        <li><a href="/en/services/growth/whatsapp-lead-generation/">WhatsApp Lead Gen (GCC)</a></li>
+      </ul>
+    </div>
+
+    <!-- ⭐ 板块二：Content & Creative AI -->
+    <div class="mega-col">
+      <span class="mega-eyebrow">Content & Creative AI</span>
+      <ul class="mega-list">
+        <li><a href="/en/services/creative/ai-video-production/">AI-Powered Video Production</a></li>
+        <li><a href="/en/services/creative/ugc-influencer-marketing/">UGC & Influencer Marketing</a></li>
+        <li><a href="/en/services/creative/branding-visual-identity/">Branding & Visual Identity</a></li>
+        <li><a href="/en/services/creative/ai-creative-automation/">AI Creative Automation System</a></li>
+      </ul>
+    </div>
+
+    <!-- ⭐ 板块三：Web3 & Innovation -->
+    <div class="mega-col">
+      <span class="mega-eyebrow">Web3 & Innovation</span>
+      <ul class="mega-list">
+        <li><a href="/en/services/web3/token-launch-strategy/">Token Launch Strategy</a></li>
+        <li><a href="/en/services/web3/community-growth/">Community Growth</a></li>
+        <li><a href="/en/services/web3/web3-pr-kols/">Web3 PR & KOLs</a></li>
+      </ul>
+    </div>
+
+    <!-- ⭐ 板块四：Digital Infrastructure -->
+    <div class="mega-col">
+      <span class="mega-eyebrow">Digital Infrastructure</span>
+      <ul class="mega-list">
+        <li><a href="/en/services/infrastructure/arabic-seo-localization/">Arabic SEO & Localization</a></li>
+        <li><a href="/en/services/infrastructure/landing-page-cro/">Landing Page & CRO</a></li>
+        <li><a href="/en/services/infrastructure/tracking-analytics/">Tracking & Analytics Setup</a></li>
+      </ul>
+    </div>
+
+  </div>
+</li>
+
           <li><a href="/en/about/">About Us</a></li>
+          <li><a href="/en/partners/">Partners</a></li>
           <li><a href="/en/case-studies/">Case Studies</a></li>
           <li><a href="/en/blog/">Blog</a></li>
           <li><a href="/en/contact/">Contact</a></li>
@@ -870,6 +2092,26 @@ color: transparent;
     </div>
   </div>
 </section>
+
+<!-- =============================
+     CLIENTS / SOCIAL PROOF
+============================= -->
+<section class="clients">
+  <div class="wrap">
+    <p class="clients__eyebrow">Trusted by GCC & global brands</p>
+    <h2 class="clients__title">Brands we&#8217;ve worked with</h2>
+
+    <div class="clients__grid" aria-label="Selected Clients">
+      <div class="./assets/yzi-ai-labs-logo">Dubai Fitness Festival</div>
+      <div class="./assets/yzi-ai-labs-logo">Binance MENA</div>
+      <div class="./assets/yzi-ai-labs-logo">Noon</div>
+      <div class="./assets/yzi-ai-labs-logo">Regional eCommerce brands</div>
+      <div class="./assets/yzi-ai-labs-logo">Fintech &amp; Web3 projects</div>
+      <div class="./assets/yzi-ai-labs-logo">Lifestyle &amp; events</div>
+    </div>
+  </div>
+</section>
+
 
 <section id="services" class="services">
   <div class="wrap">
@@ -950,6 +2192,197 @@ color: transparent;
   </div>
 </section>
 
+<!-- =============================
+     WHY YZI AI LABS
+============================= -->
+<section class="why">
+  <div class="wrap">
+    <h2 class="why__title">Why brands work with YZI AI LABS</h2>
+    <p class="why__subtitle">
+      We combine AI, creative production, and GCC market expertise to build systems that scale,
+      not just one-off campaigns.
+    </p>
+
+    <div class="why__grid">
+      <article class="why__card">
+        <h3>AI-first media strategy</h3>
+        <p>
+          We use data models, creative testing frameworks, and automated bidding strategies
+          to get more from every dirham spent across TikTok, Meta, and Google.
+        </p>
+      </article>
+
+      <article class="why__card">
+        <h3>Deep GCC understanding</h3>
+        <p>
+          Campaigns are localized for Arabic and English audiences, tuned to cultural context
+          in the UAE, KSA, Kuwait, and wider GCC markets.
+        </p>
+      </article>
+
+      <article class="why__card">
+        <h3>Creative + performance in one team</h3>
+        <p>
+          Our editors, designers, and media buyers sit under one roof, so creative production
+          and performance optimization move in sync.
+        </p>
+      </article>
+
+      <article class="why__card">
+        <h3>Proven results for Web2 &amp; Web3</h3>
+        <p>
+          From eCommerce brands to crypto exchanges, we design funnels that are compliant,
+          measurable, and built to grow over months, not weeks.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =============================
+     PARTNERS / OUR PARTNERS
+============================= -->
+<section class="partners" id="partners">
+  <div class="wrap">
+    <p class="partners__eyebrow">Our partners & platforms</p>
+    <h2 class="partners__title">Global partners</h2>
+    <p class="partners__subtitle">
+      YZI AI LABS works with advertising platforms, technology providers and regional brands
+      across Dubai, Saudi Arabia, Kuwait, Qatar and the United States.
+    </p>
+
+    <div class="partners-marquee">
+
+  <!-- 轨道（重复两遍实现无缝滚动） -->
+  <div class="partners-marquee__track">
+    <div class="partner"><img src="/assets/images/partner-google.webp" alt="Google"></div>
+    <div class="partner"><img src="/assets/images/partner-meta.webp" alt="Meta"></div>
+    <div class="partner"><img src="/assets/images/partner-tiktok.webp" alt="TikTok"></div>
+    <div class="partner"><img src="/assets/images/partner-youtube.webp" alt="YouTube"></div>
+    <div class="partner"><img src="/assets/images/partner-amazon.webp" alt="Amazon"></div>
+    <div class="partner"><img src="/assets/images/partner-qa-airways.webp" alt="Qatar Airways"></div>
+    <div class="partner"><img src="/assets/images/partner-emirates.webp" alt="Emirates"></div>
+    <div class="partner"><img src="/assets/images/partner-emaar.webp" alt="Emaar"></div>
+    <div class="partner"><img src="/assets/images/partner-noon.webp" alt="Noon"></div>
+    <div class="partner"><img src="/assets/images/partner-stc.webp" alt="stc"></div>
+  </div>
+
+  <!-- 第二遍轨道（实现无缝循环） -->
+  <div class="partners-marquee__track">
+    <div class="partner"><img src="/assets/images/partner-google.webp" alt="Google"></div>
+    <div class="partner"><img src="/assets/images/partner-meta.webp" alt="Meta"></div>
+    <div class="partner"><img src="/assets/images/partner-tiktok.webp" alt="TikTok"></div>
+    <div class="partner"><img src="/assets/images/partner-youtube.webp" alt="YouTube"></div>
+    <div class="partner"><img src="/assets/images/partner-amazon.webp" alt="Amazon"></div>
+    <div class="partner"><img src="/assets/images/partner-qa-airways.webp" alt="Qatar Airways"></div>
+    <div class="partner"><img src="/assets/images/partner-emirates.webp" alt="Emirates"></div>
+    <div class="partner"><img src="/assets/images/partner-emaar.webp" alt="Emaar"></div>
+    <div class="partner"><img src="/assets/images/partner-noon.webp" alt="Noon"></div>
+    <div class="partner"><img src="/assets/images/partner-stc.webp" alt="stc"></div>
+  </div>
+
+</div>
+
+  </div>
+</section>
+
+
+<!-- =============================
+     INDUSTRIES WE SERVE
+============================= -->
+<section class="industries" id="industries">
+  <div class="wrap">
+    <h2 class="industries__title">Industries we serve in the GCC</h2>
+    <p class="industries__subtitle">
+      YZI AI LABS supports brands across Dubai, Saudi Arabia, Kuwait, Qatar, Bahrain and Oman
+      in key growth-focused industries.
+    </p>
+
+    <div class="industries__grid">
+      <!-- 1. eCommerce & Retail -->
+      <article class="industry">
+        <h3>eCommerce &amp; retail</h3>
+        <p>
+          Scaling online stores with performance ads, shopping feeds, and creative testing
+          tailored to GCC buyers.
+        </p>
+        <ul class="industry__list">
+          <li>Fashion &amp; lifestyle brands</li>
+          <li>Marketplaces &amp; DTC stores</li>
+          <li>Ramadan &amp; seasonal campaigns</li>
+        </ul>
+      </article>
+
+      <!-- 2. Fintech, Crypto & Web3 -->
+      <article class="industry">
+        <h3>Fintech, crypto &amp; Web3</h3>
+        <p>
+          Compliance-minded growth for exchanges, wallets, and Web3 platforms across MENA and the GCC.
+        </p>
+        <ul class="industry__list">
+          <li>User acquisition &amp; activation funnels</li>
+          <li>Community &amp; content campaigns</li>
+          <li>Launch support for new tokens &amp; products</li>
+        </ul>
+      </article>
+
+      <!-- 3. Technology & SaaS -->
+      <article class="industry">
+        <h3>Technology &amp; SaaS</h3>
+        <p>
+          B2B and B2C campaigns that move from awareness to qualified leads for software and tech products.
+        </p>
+        <ul class="industry__list">
+          <li>Lead-gen for enterprise &amp; mid-market</li>
+          <li>Product launches in Dubai &amp; Riyadh</li>
+          <li>Always-on nurture and remarketing</li>
+        </ul>
+      </article>
+
+      <!-- 4. Events & Entertainment -->
+      <article class="industry">
+        <h3>Events &amp; entertainment</h3>
+        <p>
+          Ticket sales and audience growth for festivals, conferences, and live experiences
+          across the GCC.
+        </p>
+        <ul class="industry__list">
+          <li>Awareness, RSVPs &amp; ticket conversions</li>
+          <li>TikTok &amp; Reels-first creative</li>
+          <li>On-the-ground content support</li>
+        </ul>
+      </article>
+
+      <!-- 5. Hospitality & Tourism -->
+      <article class="industry">
+        <h3>Hospitality &amp; tourism</h3>
+        <p>
+          Attracting high-intent travellers and residents to hotels, attractions, and F&amp;B concepts.
+        </p>
+        <ul class="industry__list">
+          <li>Dubai &amp; wider GCC destination marketing</li>
+          <li>Offer-led performance campaigns</li>
+          <li>Content for social and OTAs</li>
+        </ul>
+      </article>
+
+      <!-- 6. Education & Training -->
+      <article class="industry">
+        <h3>Education &amp; training</h3>
+        <p>
+          Enrolment and lead-gen campaigns for schools, academies, and online programs in the region.
+        </p>
+        <ul class="industry__list">
+          <li>Lead funnels for courses &amp; programs</li>
+          <li>Parent &amp; professional targeting</li>
+          <li>Campaigns across UAE, KSA &amp; Kuwait</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+
 <section class="case-studies">
   <div class="wrap">
     <h2 class="case-studies__title">Case Studies</h2>
@@ -994,6 +2427,48 @@ color: transparent;
     </div>
   </div>
 </section>
+
+<!-- =============================
+     HOW WE WORK
+============================= -->
+<section class="process">
+  <div class="wrap">
+    <h2 class="process__title">How we work with your brand</h2>
+
+    <ol class="process__list">
+      <li>
+        <h3>1. Discovery &amp; audit</h3>
+        <p>
+          We review your existing channels, creative, and data to understand what is working,
+          what is not, and where AI can create leverage.
+        </p>
+      </li>
+      <li>
+        <h3>2. Strategy &amp; roadmap</h3>
+        <p>
+          Together we define clear growth targets, priority markets in the GCC, and a 90-day
+          plan for media, creative, and measurement.
+        </p>
+      </li>
+      <li>
+        <h3>3. Build &amp; launch</h3>
+        <p>
+          We produce creatives, set up tracking, and launch full-funnel campaigns across your
+          key platforms with testing baked in.
+        </p>
+      </li>
+      <li>
+        <h3>4. Optimize &amp; scale</h3>
+        <p>
+          Weekly iterations on audiences, creatives, and bids, with transparent reporting on
+          CAC, ROAS, and growth opportunities.
+        </p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+
 <section class="blog" aria-label="Latest Blog Posts">
   <div class="wrap">
     <h2 class="blog__title">From Our Blog</h2>
@@ -1018,24 +2493,36 @@ color: transparent;
         </div>
       </article>
 
-      <!-- 2️⃣ GCC Trends -->
-      <article class="post-card">
-        <a class="post-card__media" href="/en/blog/gcc-digital-trends-2025/">
-          <img src="./assets/images/blog-gcc-trends.webp"
-               alt="2025 GCC Digital Marketing Trends"
-               width="1200" height="675" loading="lazy" decoding="async">
-        </a>
-        <div class="post-card__body">
-          <time datetime="2025-10-28">Oct 28, 2025 · Market Insights</time>
-          <h3>
-            <a href="/en/blog/gcc-digital-trends-2025/">
-              2025 Digital Marketing Trends in the GCC
-            </a>
-          </h3>
-          <p>A data-backed look at how consumers in Dubai, Saudi Arabia, and Kuwait engage with content — and what that means for regional ad strategy in 2025.</p>
-          <a class="post-card__link" href="/en/blog/gcc-digital-trends-2025/">Read more →</a>
-        </div>
-      </article>
+            <!-- 2️⃣ GCC Trends (Featured Card, no label) -->
+            <article class="post-card post-card--featured">
+              <a class="post-card__media" href="/en/blog/gcc-digital-trends-2025/">
+            <img src="./assets/images/blog-gcc-trends.webp"
+                alt="2025 GCC Digital Marketing Trends"
+                width="1200" height="675" loading="lazy" decoding="async">
+          </a>
+
+          <div class="post-card__body">
+            <time datetime="2025-10-28">Oct 28, 2025 · Market Insights</time>
+
+            <h3>
+              <a href="/en/blog/gcc-digital-trends-2025/">
+                2025 Digital Marketing Trends in the GCC
+              </a>
+            </h3>
+
+            <p>
+              A data-backed look at how consumers in Dubai, Saudi Arabia, and Kuwait engage with content —
+              and what that means for regional ad strategy in 2025.
+            </p>
+
+            <a class="post-card__link" href="/en/blog/gcc-digital-trends-2025/">Read more →</a>
+          </div>
+        </article>
+
+
+
+
+
 
       <!-- 3️⃣ Web3 Growth -->
       <article class="post-card">
@@ -1062,15 +2549,16 @@ color: transparent;
     </div>
   </div>
 </section>
-<section class="cta" aria-label="Work with YZI AI LABS">
+<section class="cta" aria-label="Work with 
+YZI AI LABS">
   <div class="wrap cta__wrap">
     <div class="cta__copy">
       <h2>Ready to Grow in the GCC?</h2>
       <p>We help brands scale with AI-driven advertising, creative production, and performance marketing across the GCC.</p>
       <ul class="cta__bullets">
-        <li>• TikTok / Meta / Google full-funnel strategy</li>
-        <li>• Creative production & data-backed testing</li>
-        <li>• Arabic/English localization for GCC markets</li>
+        <li> TikTok / Meta / Google full-funnel strategy</li>
+        <li> Creative production & data-backed testing</li>
+        <li> Arabic/English localization for GCC markets</li>
       </ul>
     </div>
     <div class="cta__actions">
@@ -1082,9 +2570,209 @@ color: transparent;
     </div>
   </div>
 </section>
+<!-- =============================
+     NEWSLETTER SIGNUP
+============================= -->
+<section class="newsletter" id="newsletter">
+  <div class="wrap">
+    <h2 class="newsletter__title">Join the YZI AI LABS Newsletter</h2>
+    <p class="newsletter__subtitle">
+      Get updates on AI-driven marketing, creative production, and GCC growth strategies directly in your inbox.
+    </p>
 
+    <!-- 这里 action 换成你自己的后端 / 第三方表单地址 -->
+    <form class="newsletter__form"
+          action="https://example.com/newsletter/subscribe"
+          method="post"
+          accept-charset="UTF-8">
+      <div class="newsletter__fields">
+        <div class="newsletter__field">
+          <label for="nl-name">Name</label>
+          <input type="text" id="nl-name" name="name" placeholder="Your Name">
+        </div>
+        <div class="newsletter__field">
+          <label for="nl-email">Email <span aria-hidden="true">*</span></label>
+          <input type="email" id="nl-email" name="email" placeholder="you@example.com" required>
+        </div>
+        <div class="newsletter__submit">
+          <button type="submit" class="pill pill--blue">Subscribe</button>
+        </div>
+      </div>
+
+      <!-- 可选：跟踪来源页面，SEO 友好，不影响功能 -->
+      <input type="hidden" name="source" value="home_en">
+
+      <p class="newsletter__note">
+        We only send high-value updates on AI marketing and growth in the GCC. No spam, unsubscribe anytime.
+      </p>
+    </form>
+  </div>
+</section>
+<!-- =============================
+     FAQ SECTION
+============================= -->
+<section class="faq-section" id="faq" itemscope itemtype="https://schema.org/FAQPage">
+  <div class="wrap">
+    <h2 class="faq__title">Frequently Asked Questions</h2>
+
+    <div class="faq-list">
+      <!-- Q1 -->
+      <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" open>
+        <summary class="faq-summary">
+          <span itemprop="name">What does YZI AI LABS do?</span>
+        </summary>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">
+            YZI AI LABS is a Dubai-based, AI-driven marketing management agency helping brands grow across the GCC through
+            paid advertising, creative production, Web3 campaigns, and performance-focused growth strategy.
+          </p>
+        </div>
+      </details>
+
+      <!-- Q2 -->
+      <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary class="faq-summary">
+          <span itemprop="name">Do you work with both startups and established brands?</span>
+        </summary>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">
+            Yes. We partner with early-stage startups, high-growth scale-ups, and established enterprises that want to use
+            AI and data to scale in the GCC and beyond.
+          </p>
+        </div>
+      </details>
+
+      <!-- Q3 -->
+      <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary class="faq-summary">
+          <span itemprop="name">Which markets do you focus on?</span>
+        </summary>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">
+            Our core focus is the GCC region — including the UAE, Saudi Arabia, Kuwait, Qatar, Bahrain, and Oman — as well
+            as global brands expanding into these markets.
+          </p>
+        </div>
+      </details>
+
+      <!-- Q4 -->
+      <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary class="faq-summary">
+          <span itemprop="name">How can we start working with YZI AI LABS?</span>
+        </summary>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">
+            You can reach us via the contact form, email, or WhatsApp. Once we understand your goals, we propose an
+            AI-driven marketing plan and timeline tailored to your brand.
+          </p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
 
 </main>
+
+<footer class="footer">
+  <div class="wrap footer__container">
+
+    <!-- 左侧品牌 + 文案 -->
+    <div class="footer__about">
+      <h3 class="footer__logo">YZI AI LABS</h3>
+      <p class="footer__text">
+        Global Marketing & AI Creative Team working across Dubai and Hong Kong — 
+        delivering AI-powered advertising, creative production, and growth strategy 
+        for brands across the GCC.
+      </p>
+      <p class="footer__copy">© 2025 YZI AI LABS. All rights reserved.</p>
+    </div>
+
+    <!-- 链接区：导航 / Social / Legal -->
+    <div class="footer__links">
+
+      <!-- Group 1: Navigation -->
+      <div class="footer__col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="/#services">Services</a></li>
+          <li><a href="/#case-studies">Case Studies</a></li>
+          <li><a href="/#blog">Blog</a></li>
+          <li><a href="/#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Group 2: Social -->
+      <div class="footer__col">
+        <h4>Social</h4>
+        <ul>
+          <li><a href="https://www.linkedin.com" target="_blank">LinkedIn</a></li>
+          <li><a href="https://www.instagram.com" target="_blank">Instagram</a></li>
+          <li><a href="https://twitter.com" target="_blank">Twitter (X)</a></li>
+          <li><a href="https://www.youtube.com" target="_blank">YouTube</a></li>
+          <li><a href="https://www.tiktok.com" target="_blank">TikTok</a></li>
+        </ul>
+      </div>
+
+      <!-- Group 3: Legal -->
+      <div class="footer__col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/en/legal/privacy-policy/">Privacy Policy</a></li>
+          <li><a href="/en/legal/terms-of-service/">Terms of Service</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+</footer>
+
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* ===== Newsletter ===== */
+  const form = document.getElementById("newsletter-form");
+  const msg = document.getElementById("newsletter-msg");
+
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("nl-name").value.trim();
+      const email = document.getElementById("nl-email").value.trim();
+
+      if (!email) {
+        msg.textContent = "Please enter your email.";
+        msg.style.color = "#f87171"; 
+        return;
+      }
+
+      msg.textContent = "Subscribed successfully! 🎉";
+      msg.style.color = "#4ade80";
+      form.reset();
+    });
+  }
+
+  /* ===== FAQ Toggle ===== */
+  document.querySelectorAll(".faq-question").forEach(q => {
+    q.addEventListener("click", () => {
+      const item = q.parentElement;
+
+      // close others
+      document.querySelectorAll(".faq-item").forEach(i => {
+        if (i !== item) i.classList.remove("active");
+      });
+
+      item.classList.toggle("active");
+    });
+  });
+
+});
+</script>
 
 </body>
 </html>
